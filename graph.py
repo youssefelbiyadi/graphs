@@ -41,7 +41,10 @@ class Graph:
         vertex: str,
         other_vertex: str,
     ) -> bool:
-        if vertex in self.adjacencies_list and other_vertex in self.adjacencies_list:
+        if (
+            vertex in self.adjacencies_list
+            and other_vertex in self.adjacencies_list
+        ):
             if not self._are_neighbours(
                 vertex=vertex,
                 other_vertex=other_vertex,
@@ -69,7 +72,10 @@ class Graph:
         vertex: str,
         other_vertex: str,
     ) -> bool:
-        if vertex in self.adjacencies_list and other_vertex in self.adjacencies_list:
+        if (
+            vertex in self.adjacencies_list
+            and other_vertex in self.adjacencies_list
+        ):
             self.remove_vertex_neighbour(
                 vertex=vertex,
                 neighbour=other_vertex,
@@ -93,13 +99,24 @@ class Graph:
             return True
         return False
 
-    def bfs(self, vertex: str):
-        visited = []
+    def breath_first_search(self, vertex: str) -> List[str]:
+        visited = set(vertex)
         queue = [vertex]
         while queue:
             current = queue.pop(0)
-            if current not in queue:
-                visited.append(current)
             for neighbour in self.adjacencies_list[current]:
                 if neighbour not in visited:
                     queue.append(neighbour)
+                    visited.add(neighbour)
+        return list(visited)
+
+    def depth_first_search(self, vertex: str) -> List[str]:
+        visited = set(vertex)
+        stack = [vertex]
+        while stack:
+            current = stack.pop()
+            for neighbour in self.adjacencies_list[current]:
+                if neighbour not in visited:
+                    stack.append(neighbour)
+                    visited.add(neighbour)
+        return list(visited)
